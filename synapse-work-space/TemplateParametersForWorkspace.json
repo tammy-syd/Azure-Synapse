@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workspaceName": {
+			"value": "synapse-work-space"
+		},
+		"synapse-work-space-WorkspaceDefaultSqlServer_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:synapse-work-space.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
+		},
+		"bing-covid-19-data_sasUri": {
+			"value": ""
+		},
+		"synapse-work-space-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"value": "https://synapsestore123.dfs.core.windows.net"
+		}
+	}
+}
