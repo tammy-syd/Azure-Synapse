@@ -1,0 +1,20 @@
+{
+	"name": "explore_calendar",
+	"properties": {
+		"folder": {
+			"name": "nyc_taxi/discovery"
+		},
+		"content": {
+			"query": "-- This is auto-generated code\nUSE nyc_taxi\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'calendar.csv',\n        DATA_SOURCE = 'nyc_taxi_data_raw',\n        HEADER_ROW = TRUE,\n        FORMAT = 'CSV',\n        PARSER_VERSION = '2.0'\n\n)\n    ) AS [result]\n\n-- Check data types\nEXEC sp_describe_first_result_set N'SELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK ''calendar.csv'',\n        DATA_SOURCE = ''nyc_taxi_data_raw'',\n        HEADER_ROW = TRUE,\n        FORMAT = ''CSV'',\n        PARSER_VERSION = ''2.0''\n\n)\n     AS [result]'\n\n-- Change data types day_name 6 and month_name 10\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'calendar.csv',\n        DATA_SOURCE = 'nyc_taxi_data_raw',\n        HEADER_ROW = TRUE,\n        FORMAT = 'CSV',\n        PARSER_VERSION = '2.0'\n)\nwith (\n    Day_name VARCHAR(30) 6,\n    Month_name VARCHAR(30) 10\n\n    ) AS [result]\n\nEXEC sp_describe_first_result_set N'SELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK ''calendar.csv'',\n        DATA_SOURCE = ''nyc_taxi_data_raw'',\n        HEADER_ROW = TRUE,\n        FORMAT = ''CSV'',\n        PARSER_VERSION = ''2.0''\n)\nwith (\n    Day_name VARCHAR(30) 6,\n    Month_name VARCHAR(30) 10\n\n    ) AS [result]'\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "nyc_taxi",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
