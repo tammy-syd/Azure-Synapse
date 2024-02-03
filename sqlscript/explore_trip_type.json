@@ -1,0 +1,17 @@
+{
+	"name": "explore_trip_type",
+	"properties": {
+		"content": {
+			"query": "-- This is auto-generated code\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'trip_type.tsv',\n        DATA_SOURCE = 'nyc_taxi_data_raw',\n        FORMAT = 'CSV',\n        PARSER_VERSION = '2.0',\n        FIELDTERMINATOR ='\\t'\n    ) AS [result]\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "nyc_taxi",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
