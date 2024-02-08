@@ -1,6 +1,9 @@
 {
 	"name": "rate_code",
 	"properties": {
+		"folder": {
+			"name": "nyc_taxi/discovery"
+		},
 		"content": {
 			"query": "-- This is auto-generated code\nSELECT rate_code_id, rate_code\n/* --> place the keys that you see in JSON documents in the WITH clause:\n       , JSON_VALUE (jsonContent, '$.key1') AS header1\n       , JSON_VALUE (jsonContent, '$.key2') AS header2\n*/\nFROM\n    OPENROWSET(\n        BULK 'https://synapsestore123.dfs.core.windows.net/nyc-taxi-data/raw/rate_code.json',\n        FORMAT = 'CSV',\n        FIELDQUOTE = '0x0b',\n        FIELDTERMINATOR ='0x0b',\n        ROWTERMINATOR = '0x0b'\n    )\n    WITH (\n        jsonContent varchar(MAX)\n    ) AS [result]\n    CROSS APPLY OPENJSON(jsonContent)\nWITH(\n    rate_code_id SMALLINT,\n    rate_code VARCHAR(30)\n)\n",
 			"metadata": {
