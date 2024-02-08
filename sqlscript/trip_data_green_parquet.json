@@ -1,0 +1,17 @@
+{
+	"name": "trip_data_green_parquet",
+	"properties": {
+		"content": {
+			"query": "-- This is auto-generated code\nuse nyc_taxi\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'trip_data_green_parquet/year=2020/month=01',\n        DATA_SOURCE = 'nyc_taxi_data_raw',\n        FORMAT = 'PARQUET'\n    ) AS [result]\n\n-- Get data types\nEXEC sp_describe_first_result_set N'SELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK ''trip_data_green_parquet/year=2020/month=01'',\n        DATA_SOURCE = ''nyc_taxi_data_raw'',\n        FORMAT = ''PARQUET''\n    ) AS [result]'\nuse nyc_taxi\n\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'trip_data_green_parquet/year=2020/month=01',\n        DATA_SOURCE = 'nyc_taxi_data_raw',\n        FORMAT = 'PARQUET'\n    )\n    with(\n        tip_amount FLOAT,\n        trip_type int\n    )\n     AS [result]\n\n--Select  data in trip_data_green_parquet in feb 2020\nSELECT\n    TOP 1000 *\nFROM\n    OPENROWSET(\n        BULK 'trip_data_green_parquet/year=2020/month=02/*.parquet',\n        DATA_SOURCE='nyc_taxi_data_raw',\n        FORMAT ='parquet'\n        \n        --HEADER_ROW = true\n    ) AS [result]\n\n-- Get the file name\nSELECT\n    top 100\n    result.filename() as file_name,\n    count(*) as no_of_record\nFROM\n    OPENROWSET(\n        BULK 'trip_data_green_parquet/year=*/month=*/*.parquet',\n        DATA_SOURCE='nyc_taxi_data_raw',\n        FORMAT = 'parquet'\n        \n    ) AS [result]\nGROUP by result.filename()\n\n-- Query from all subfolders\nSELECT\n    top 100\n    result.filepath() as file_path,\n    count(*) as no_of_record\nFROM\n    OPENROWSET(\n        BULK 'trip_data_green_parquet/**',\n        DATA_SOURCE='nyc_taxi_data_raw',\n        FORMAT = 'parquet'\n        \n    ) AS [result]\nGROUP by result.filepath()\nORDER by result.filepath()\n\n-- Count the number of records for data in May,June,July 2020\nSELECT\n    \n    result.filepath(1) as year,\n    result.filepath(2) as month,\n    count(*) as no_of_record\nFROM\n    OPENROWSET(\n        BULK 'trip_data_green_parquet/year=*/month=*/*.parquet',\n        DATA_SOURCE='nyc_taxi_data_raw',\n        FORMAT = 'parquet'\n        \n    ) AS [result]\nwhere result.filepath(2) in ('05','06','07')\n and result.filepath(1)=2020\n-- and VendorID =2\nGROUP by result.filepath(1) ,\n    result.filepath(2)\nORDER by result.filepath(1) ,\n    result.filepath(2)\n\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "nyc_taxi",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
