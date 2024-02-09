@@ -1,0 +1,20 @@
+{
+	"name": "2_create_external_datasource_and_file_format",
+	"properties": {
+		"folder": {
+			"name": "nyc_taxi/logical data warehouse"
+		},
+		"content": {
+			"query": "use nyc_ldw\n\n\nCREATE EXTERNAL DATA SOURCE nyc_taxi_source \nWITH (\n    LOCATION = 'https://synapsestore123.dfs.core.windows.net/nyc-taxi-data'\n    \n);\n\n-- Create an external file format for DELIMITED (CSV/TSV) files.\nCREATE EXTERNAL FILE FORMAT csv_file_format\nWITH (\n        FORMAT_TYPE = DELIMITEDTEXT\n     , FORMAT_OPTIONS\n     (\n    FIELD_TERMINATOR = ',',\n     STRING_DELIMITER = '\"',\n     FIRST_ROW = 2,\n     --DATE_FORMAT = datetime_format,\n     USE_TYPE_DEFAULT = FALSE, \n     ENCODING = 'UTF8', \n     PARSER_VERSION = '2.0'\n\n)) \n     \n        \n  \n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "nyc_ldw",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

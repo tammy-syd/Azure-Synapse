@@ -1,0 +1,20 @@
+{
+	"name": "3_create_bronze_table",
+	"properties": {
+		"folder": {
+			"name": "nyc_taxi/logical data warehouse"
+		},
+		"content": {
+			"query": "USE nyc_ldw\n\n-- Create taxi zone table\nCREATE EXTERNAL TABLE nyc_ldw.bronze.taxi_zone\n    (   LocationID SMALLINT,\n        Borough VARCHAR(30),\n        Zone VARCHAR(30),\n        service_zone VARCHAR(30)\n    )\n    WITH (\n        LOCATION = 'raw/taxi_zone.csv',\n        DATA_SOURCE = nyc_taxi_source,\n        FILE_FORMAT = csv_file_format\n        \n    );\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "nyc_ldw",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
