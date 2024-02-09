@@ -165,7 +165,7 @@
 					"name": "nyc_taxi/logical data warehouse"
 				},
 				"content": {
-					"query": "USE nyc_ldw\n\n-- Create taxi zone table\nCREATE EXTERNAL TABLE nyc_ldw.bronze.taxi_zone\n    (   LocationID SMALLINT,\n        Borough VARCHAR(30),\n        Zone VARCHAR(30),\n        service_zone VARCHAR(30)\n    )\n    WITH (\n        LOCATION = 'raw/taxi_zone.csv',\n        DATA_SOURCE = nyc_taxi_source,\n        FILE_FORMAT = csv_file_format\n        \n    );\n\n",
+					"query": "--DROP EXTERNAL TABLE bronze.taxi_zone\n--DROP EXTERNAL TABLE bronze.taxi_zone_real\n\nUSE nyc_ldw\nCREATE EXTERNAL TABLE bronze.taxi_zone (\n\t[LocationID] SMALLINT,\n\t[Borough] nvarchar(100),\n\t[Zone] nvarchar(100),\n\t[service_zone] nvarchar(100)\n\t)\n\tWITH (\n\tLOCATION = 'raw/taxi_zone.csv',\n\tDATA_SOURCE = nyc_taxi_source,\n\tFILE_FORMAT = csv_file_format\n\t)\nGO\n\n\nSELECT TOP 100 * FROM bronze.taxi_zone\nGO\n\n",
 					"metadata": {
 						"language": "sql"
 					},
@@ -429,24 +429,6 @@
 					"resultLimit": 5000
 				},
 				"type": "SqlQuery"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/SQL script 1')]",
-			"type": "Microsoft.Synapse/workspaces/sqlscripts",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"content": {
-					"query": "SELECT TOP (100) [LocationID]\n,[Borough]\n,[Zone]\n,[service_zone]\n FROM [bronze].[taxi_zone]",
-					"metadata": {
-						"language": "sql"
-					},
-					"currentConnection": {
-						"databaseName": "nyc_ldw",
-						"poolName": "Built-in"
-					}
-				}
 			},
 			"dependsOn": []
 		}
